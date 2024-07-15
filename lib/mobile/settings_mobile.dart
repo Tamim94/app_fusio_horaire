@@ -25,12 +25,15 @@ class _SettingsMobileState extends State<SettingsMobile> {
 
             /// Bouton pour changer de thème
             ElevatedButton(
-              onPressed: () => widget.notifier.value =
-                  widget.notifier.value == ThemeMode.light
-                      ? ThemeMode.dark
-                      : ThemeMode.light,
+              onPressed: () {
+                widget.notifier.value = widget.notifier.value == ThemeMode.light
+                    ? ThemeMode.dark
+                    : ThemeMode.light;
+                print('Theme mode: ${widget.notifier.value}');
+              },
               child: Text('Thème'),
             ),
+
             SizedBox(height: 20),
 
             ValueListenableBuilder<bool>(

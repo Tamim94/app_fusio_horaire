@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
 import '../Model/timezone_model.dart';
-import '../routes.dart';
 
 class TimeZonePage extends StatefulWidget {
   final ValueNotifier<String> selectedTimeZone;
@@ -50,7 +48,7 @@ class _TimeZonePageState extends State<TimeZonePage> {
                   onTap: () {
                     widget.selectedTimeZone.value =
                         snapshot.data![index].offset;
-                    Navigator.pushNamed(context, Routes.accueil);
+                    Navigator.pop(context);
                   },
                 );
               },

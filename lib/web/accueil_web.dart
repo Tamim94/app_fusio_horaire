@@ -22,8 +22,7 @@ class _AccueilWebState extends State<AccueilWeb> {
     super.initState();
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       setState(() {
-        _currentTime = _convertToSelectedTimeZone(
-            DateTime.now(), widget.selectedTimeZone.value);
+        _currentTime = DateTime.now();
       });
     });
   }
@@ -47,8 +46,6 @@ class _AccueilWebState extends State<AccueilWeb> {
     final offsetHours = int.parse(match.group(2)!);
     final offsetMinutes = int.parse(match.group(3)!);
 
-    print("Offset: $offset, Hours: $offsetHours, Minutes: $offsetMinutes");
-
     Duration offsetDuration = Duration(
       hours: offsetSign == '+' ? offsetHours : -offsetHours,
       minutes: offsetSign == '+' ? offsetMinutes : -offsetMinutes,
@@ -63,7 +60,7 @@ class _AccueilWebState extends State<AccueilWeb> {
       valueListenable: widget.selectedTimeZone,
       builder: (context, selectedTimeZone, child) {
         DateTime localTime =
-        _convertToSelectedTimeZone(_currentTime, selectedTimeZone);
+            _convertToSelectedTimeZone(_currentTime, selectedTimeZone);
         String formattedTime = _formatDateTime(localTime);
 
         return Center(

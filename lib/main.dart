@@ -11,7 +11,9 @@ void main() async {
     ValueListenableBuilder<ThemeMode>(
       valueListenable: _notifier,
       builder: (_, mode, __) {
+        print('Theme mode: $mode');
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           themeMode: mode,
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
@@ -23,31 +25,3 @@ void main() async {
     ),
   );
 }
-
-/*
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  final ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.system);
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: _notifier,
-      builder: (_, mode, __) {
-        return MaterialApp(
-          themeMode: mode,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
-          onGenerateRoute: (settings) =>
-              Routes.generateRoute(settings, _notifier),
-          home: ThemeSwapper(_notifier),
-        );
-      },
-    );
-  }
-}*/

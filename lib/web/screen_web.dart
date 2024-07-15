@@ -1,16 +1,13 @@
-import 'package:app_fusio_horaire/Components/components.dart';
-
+import 'package:app_fusio_horaire/web/accueil_web.dart';
 import 'package:app_fusio_horaire/web/settings_web.dart';
 import 'package:flutter/material.dart';
 
-import 'accueil_web.dart';
 import 'list_timezone.dart';
 
 class ScreenWeb extends StatefulWidget {
   final ValueNotifier<String> selectedTimeZone;
 
   ScreenWeb({required this.selectedTimeZone});
-
   @override
   _ScreenWebState createState() => _ScreenWebState();
 }
@@ -19,6 +16,8 @@ class _ScreenWebState extends State<ScreenWeb> {
   int _currentIndex = 0;
   final _pageController = PageController();
   final _use24HourFormat = ValueNotifier<bool>(true);
+  final ValueNotifier<String> _selectedTimeZone =
+      ValueNotifier<String>("UTC+00:00");
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +32,9 @@ class _ScreenWebState extends State<ScreenWeb> {
         children: <Widget>[
           AccueilWeb(
             use24HourFormat: _use24HourFormat,
-            selectedTimeZone: widget.selectedTimeZone,
+            selectedTimeZone: _selectedTimeZone,
           ),
-          TimeZonePage(selectedTimeZone: widget.selectedTimeZone),
+          TimeZonePage(selectedTimeZone: _selectedTimeZone),
           SettingsWeb(
             notifier: ValueNotifier(ThemeMode.system),
             use24HourFormat: _use24HourFormat,
@@ -44,9 +43,19 @@ class _ScreenWebState extends State<ScreenWeb> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) {
-          _pageController.animateToPage(index,
-              duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+        onTap: (index) async {
+          if (index == 1) {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    TimeZonePage(selectedTimeZone: _selectedTimeZone),
+              ),
+            );
+          } else {
+            _pageController.animateToPage(index,
+                duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+          }
         },
         items: [
           BottomNavigationBarItem(
