@@ -1,6 +1,5 @@
+import 'package:app_fusio_horaire/routes.dart';
 import 'package:flutter/material.dart';
-
-//Defini les themes de couleurs
 
 class ThemeSwapper extends StatefulWidget {
   final ValueNotifier<ThemeMode> notifier;
@@ -34,8 +33,15 @@ class _ThemeSwapperState extends State<ThemeSwapper> {
 
             /// Bouton pour aller dans la page d'accueil
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(
-                  context, '/'), // Navigate to the default route
+              onPressed: () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  Routes.accueil,
+                  arguments: {
+                    'selectedTimeZone': ValueNotifier<String>("UTC+00:00")
+                  },
+                );
+              },
               child: Text("""Start l'app?"""),
             ),
           ],

@@ -3,23 +3,28 @@ import 'package:app_fusio_horaire/mobile/screen_mobile.dart';
 import 'package:app_fusio_horaire/themeswapper.dart';
 import 'package:app_fusio_horaire/web/screen_web.dart';
 
-// Route settings for taking the user to a page according to the screen size
 class Routes {
-  static const String home = '/';
   static const String swap_page = '/swap_page';
   static const String accueil = '/accueil';
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(
+      RouteSettings settings, ValueNotifier<ThemeMode> themeNotifier) {
     switch (settings.name) {
       case swap_page:
-        final notifier = settings.arguments as ValueNotifier<ThemeMode>;
-        return _responsiveRoute(ThemeSwapper(notifier), ThemeSwapper(notifier));
-      case home:
-        return _responsiveRoute(ScreenWeb(), ScreenMobile());
+        return _responsiveRoute(
+            ThemeSwapper(themeNotifier), ThemeSwapper(themeNotifier));
       case accueil:
-        return _responsiveRoute(ScreenWeb(), ScreenMobile());
+        final args = settings.arguments as Map<String, dynamic>?;
+        final selectedTimeZone =
+            args?['selectedTimeZone'] as ValueNotifier<String>? ??
+                ValueNotifier<String>("UTC+00:00");
+        return _responsiveRoute(ScreenWeb(selectedTimeZone: selectedTimeZone),
+            ScreenMobile(selectedTimeZone: selectedTimeZone));
       default:
-        return _responsiveRoute(ScreenMobile(), ScreenWeb(), settings);
+        return _responsiveRoute(
+            ScreenMobile(selectedTimeZone: ValueNotifier<String>("UTC+00:00")),
+            ScreenWeb(selectedTimeZone: ValueNotifier<String>("UTC+00:00")),
+            settings);
     }
   }
 

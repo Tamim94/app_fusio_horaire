@@ -5,6 +5,29 @@ import 'package:app_fusio_horaire/themeswapper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.system);
+
+  runApp(
+    ValueListenableBuilder<ThemeMode>(
+      valueListenable: _notifier,
+      builder: (_, mode, __) {
+        return MaterialApp(
+          themeMode: mode,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          onGenerateRoute: (settings) =>
+              Routes.generateRoute(settings, _notifier),
+          home: ThemeSwapper(_notifier),
+        );
+      },
+    ),
+  );
+}
+
+/*
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
@@ -20,10 +43,11 @@ class MyApp extends StatelessWidget {
           themeMode: mode,
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
-          onGenerateRoute: (settings) => Routes.generateRoute(settings),
-          initialRoute: '/', // Ensure initial route is set correctly
+          onGenerateRoute: (settings) =>
+              Routes.generateRoute(settings, _notifier),
+          home: ThemeSwapper(_notifier),
         );
       },
     );
   }
-}
+}*/
